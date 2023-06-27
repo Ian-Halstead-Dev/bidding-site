@@ -16,7 +16,13 @@ const auctionSchema = new mongoose.Schema({
   },
 
   description: {
-    type: string,
+    type: String,
+  },
+
+  name: {
+    type: String,
+    maxLength: 25,
+    required: true,
   },
 
   /*
@@ -34,7 +40,7 @@ const auctionSchema = new mongoose.Schema({
   */
   endDate: {
     type: Number,
-    default: Math.floor(Date.now().getTime() / 1000),
+    default: Math.floor(Date.now() / 1000),
   },
 });
 
