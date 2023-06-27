@@ -76,7 +76,6 @@ userSchema.statics.findByCredentials = async (name, password) => {
 };
 
 userSchema.statics.findByNameOrEmail = async (credential) => {
-  console.log("findByNameOrEmail", credential);
   let user = await User.findOne({ name: credential });
   if (!user) {
     user = await User.findOne({ email: credential });

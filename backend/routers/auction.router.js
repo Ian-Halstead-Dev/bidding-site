@@ -5,12 +5,14 @@ const User = require("../models/user.model");
 const auth = require("../middleware/auth");
 
 router.get("/:id", async (req, res) => {
-  const auction = await Auction.findById(req.query.id);
+  const auction = await Auction.findById(req.params.id);
+  const user = await Auction.findById(req.params.id).populate("owner").exec();
+
   if (!auction) {
     res.status(404).send({ e: auctionNotFound });
   }
 
-  res.status(200).send({ auction });
+  res.status(200).send({ auction, user });
 });
 
 router.post("/", auth, async (req, res) => {

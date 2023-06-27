@@ -4,6 +4,7 @@ const auctionSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: true,
   },
   currentBidder: {
     type: mongoose.Schema.Types.ObjectId,
@@ -21,7 +22,7 @@ const auctionSchema = new mongoose.Schema({
 
   name: {
     type: String,
-    maxLength: 25,
+    maxLength: 63,
     required: true,
   },
 
