@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const validator = require("validator");
 
 const userSchema = new mongoose.Schema(
   {
@@ -9,6 +10,14 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
       unique: true,
+    },
+
+    email: {
+      type: String,
+      required: true,
+      validate(value) {
+        return validator.isEmail(value);
+      },
     },
 
     password: {
@@ -22,6 +31,7 @@ const userSchema = new mongoose.Schema(
         }
       },
     },
+
     tokens: [
       {
         token: {
@@ -36,15 +46,44 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+userSchema.virtual("auctions", {
+  ref: "Auction",
+  localField: "_id",
+  foreignField: "owner",
+});
+
+userSchema.virtual("bids", {
+  ref: "Auction",
+  localField: "_id",
+  foreignField: "currentBidder",
+});
+
 userSchema.statics.findByCredentials = async (name, password) => {
-  const user = await User.findOne({ name });
+  let user = await User.findByNameOrEmail(name);
+  console.log(user);
+
   if (!user) {
-    throw new Error("Unable to login!");
+    throw new Error("Unable to login");
   }
+
   const isMatch = await bcrypt.compare(password, user.password);
 
   if (!isMatch) {
     throw new Error("Unable to login");
+  }
+
+  return user;
+};
+
+userSchema.statics.findByNameOrEmail = async (credential) => {
+  console.log("findByNameOrEmail", credential);
+  let user = await User.findOne({ name: credential });
+  if (!user) {
+    user = await User.findOne({ email: credential });
+
+    if (!user) {
+      throw new Error("User does not exist");
+    }
   }
 
   return user;

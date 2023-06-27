@@ -5,13 +5,26 @@ const auctionSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  currentBid: {
+  currentBidder: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+
   currentBidAmount: {
     type: Number,
     default: 0,
+  },
+
+  description: {
+    type: string,
+  },
+
+  /*
+  Increment By is the amount of money each bid must be raised by in dollars
+  */
+  incrementBy: {
+    type: Number,
+    default: 1,
   },
 
   /* 
@@ -25,6 +38,6 @@ const auctionSchema = new mongoose.Schema({
   },
 });
 
-const Auction = mongoose.model("User", auctionSchema);
+const Auction = mongoose.model("Auction", auctionSchema);
 
 module.exports = Auction;
