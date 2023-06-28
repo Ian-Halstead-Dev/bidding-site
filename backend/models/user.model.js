@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
       validate(value) {
         return validator.isEmail(value);
       },
@@ -76,7 +77,6 @@ userSchema.virtual("currentBidder", {
 
 userSchema.statics.findByCredentials = async (name, password) => {
   let user = await User.findByNameOrEmail(name);
-  console.log(user);
 
   if (!user) {
     throw new Error("Unable to login");

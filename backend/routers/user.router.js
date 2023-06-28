@@ -7,7 +7,7 @@ require("dotenv").config();
 
 router.post("/", async (req, res) => {
   // fieldsToDelete will delete a field from user before it is saved to database
-  const fieldsToDelete = [];
+  const fieldsToDelete = ["alerts"];
 
   fieldsToDelete.forEach((field) => {
     if (req.body[field]) {
