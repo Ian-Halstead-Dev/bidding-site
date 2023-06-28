@@ -40,6 +40,22 @@ const userSchema = new mongoose.Schema(
         },
       },
     ],
+    alerts: [
+      {
+        title: {
+          type: String,
+          required: true,
+        },
+        alert: {
+          type: String,
+          required: true,
+        },
+        acknowledged: {
+          type: Boolean,
+          default: false,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
