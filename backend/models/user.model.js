@@ -52,7 +52,7 @@ userSchema.virtual("auctions", {
   foreignField: "owner",
 });
 
-userSchema.virtual("bids", {
+userSchema.virtual("currentBidder", {
   ref: "Auction",
   localField: "_id",
   foreignField: "currentBidder",
